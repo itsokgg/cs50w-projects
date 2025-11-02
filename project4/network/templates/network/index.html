@@ -1,0 +1,46 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    <h1>All Posts</h1>
+    {% if user.is_authenticated %}   
+        <div class="card">
+            <div class="card-body">
+                <h3>New Post</h3>
+                <form action="{% url 'post' %}" method="POST">   
+                    {% csrf_token %}
+                    <textarea class="round form-control" name="text"></textarea>
+                    <button class="btn btn-primary" value="submint">Post</button>
+                </form> 
+            </div>
+        </div>
+    {% endif %}
+    
+    {% for post in page %}
+        <div class="card">
+            <div class="card-body" id="post-{{ post.id }}">
+                <a href="{% url 'profile' username=post.user %}"><strong>{{ post.user }}</strong></a>
+                <i>{{ post.timestamp }}</i>
+                
+                {% if user.username == post.user %}
+                    <div class="edit" data-text="{{ post.text }}" data-id="{{ post.id }}"></div>
+                    ❤️{{ post.likes }}
+                {% else %}
+                    <p>{{ post.text }}</p>
+                    <div class="edit-likes" data-likes="{{ post.likes }}" data-id="{{ post.id }}" data-liked="{{ post.liked }}"></div>
+                {% endif %}
+                
+            </div>
+        </div>
+    {% endfor %}
+
+    <nav>
+        <ul class="pagination">
+            {% if page.has_previous %}   
+                <li class="page-item"><a class="page-link" href="?page={{ page.previous_page_number }}">previous</a></li>
+            {% endif %}
+            {% if page.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page.next_page_number }}">next</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}

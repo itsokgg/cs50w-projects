@@ -1,0 +1,10 @@
+body {
+    padding: 10px;
+}
+
+.round {
+  border-radius: 50px;
+  margin: 5px;
+  text-align: center;
+  font-size: 1.5rem;
+}
