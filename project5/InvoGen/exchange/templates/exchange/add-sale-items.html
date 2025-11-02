@@ -1,0 +1,138 @@
+{% extends "exchange/layout.html" %}
+
+{% block title %}Purchase Serialized Items{% endblock %}
+
+{% block body %}
+    <script>
+        // I got help from ChatGPT on how to generally dynamically render extraformsets using empty_form
+        // ChatGpt did not help me with how to apply it to my template with my specific needs
+        document.addEventListener("DOMContentLoaded", () => {
+            function addFormset(prefix) {
+                let addBtn = document.getElementById(`add-to-${prefix}-btn`);
+                let totalForms = document.getElementById(`id_${prefix}-TOTAL_FORMS`);
+                let emptyFormsetHTML = document.getElementById(`empty-${prefix}-div`).innerHTML;
+                let formsetRenderDiv = document.getElementById(`${prefix}-render-div`);
+            
+                addBtn.addEventListener("click", ()=> {
+                    let formCount = parseInt(totalForms.value);
+                    let itemNumber = formCount + 1;
+                    let newForm = document.createElement("div");
+                    // replace all instances of __prefix__
+                    newFormHTML = emptyFormsetHTML.replace(/__prefix__/g, formCount);
+                    
+                    // replace all __itemNumber__ for items
+                    if (newFormHTML.includes("__itemNumber__")) {
+                        formHTML = newFormHTML.replace(/__itemNumber__/g, itemNumber);
+                    } else {
+                        formHTML = newFormHTML
+                    }
+                    newForm.innerHTML = formHTML;
+                    formsetRenderDiv.append(newForm);
+                    totalForms.value = formCount + 1;
+                })
+
+                
+            }
+            addFormset("formset1");
+            addFormset("formset2");
+            const btn = document.getElementById("add-serialized-btn")
+            btn.click()
+        })
+
+        function addSerializedItemInput(btn) {
+            let itemNumber = parseInt(btn.dataset.itemnumber);
+            let newDiv = document.createElement('p');
+            let emptyHTML = document.getElementById("empty-serialized-item-div").innerHTML;
+            let renderDiv = document.getElementById("serialized-item-render-div");
+            
+            newDiv.innerHTML = emptyHTML.replace(/__prefix__/g, itemNumber);
+
+            renderDiv.insertBefore(newDiv, btn);
+            newNumber = itemNumber + 1;
+            btn.dataset.itemnumber = newNumber;
+        }
+    </script>
+    <div class="text-center"><h1>Sale Items</h1></div>
+    <!-- empty div outside form so it doesnt submit-->
+    <div id="empty-serialized-item-div" style="display: none">
+        <div class="input-group">
+            <div class="col-10">
+                
+                <label for="serialized-item">Item</label>
+                <select id="serialized-item" class="form-select" name="serialized-item">
+                    <option value="">------------------</option>
+                    {% for item in items %}
+                        <option value="{{ item.id }}">{{ item }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-2">
+                <label for="price-sold-__prefix__">Price($):</label>
+                <input type="number" id="price-sold-__prefix__" name="price-sold-__prefix__" class="form-control">
+            </div>
+        </div>
+    </div>
+
+    <form action="{% url 'add_sale_items' sale_id=sale_id %}" method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <div class="item-container">
+                <h4>Serialized Items</h4>
+                <hr>
+                
+                <div id ="serialized-item-render-div" >
+                    <button id="add-serialized-btn" onclick="addSerializedItemInput(this)" data-itemNumber="0" type="button" class="btn btn-success">+</button>
+                </div>
+                
+                 
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <h3>Nonserialized Items</h3>
+            <hr>
+            {{ formset1.management_form }}
+            <div id="empty-formset1-div" style="display: none">
+                <div class="item-container">
+                    <h4>Item __itemNumber__</h4>
+                    {{ formset1.empty_form.as_p}}
+                </div>
+            </div>
+
+            <div id="formset1-render-div">
+                <div class="item-container">
+                    <h4>Item 1</h4>
+                    {% for form in formset1 %}
+                        {{ form.as_p }}
+                    {% endfor %}
+                </div>
+            </div>
+            <p><button id="add-to-formset1-btn" type="button" class="btn btn-secondary">Add Item</button></p>
+        </div>
+            
+        
+        {{ formset2.management_form }}
+        <div class="mb-3">
+            <h3>Other Costs</h3>
+            <div id="empty-formset2-div" style="display: none">
+                <div class="item-container">
+                    {{ formset2.empty_form.as_p }}
+                </div>
+            </div>
+            <div id="formset2-render-div">
+                <div class="item-container">
+                    {% for form in formset2 %}
+                        {{ form.as_p }}
+                    {% endfor %}
+                </div>
+            </div>
+            <p><button id="add-to-formset2-btn" type="button" class="btn btn-secondary">Add Other Cost</button></p>
+        </div>
+
+        <div class="text-center">
+            <hr>
+            <input class="btn btn-primary" type="submit" value="Save">
+        </div>
+    </form>
+        
+{% endblock %}

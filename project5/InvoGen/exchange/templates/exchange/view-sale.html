@@ -1,0 +1,107 @@
+{% extends "exchange/layout.html" %}
+
+{% block title %}{{ sale }}{% endblock %}
+
+{% block body %}
+        <h2>{{ sale }}</h2>
+        <hr>
+        <ul class="list-group list-group-flush">
+                <li class="list-group-item"><h5>Customer: {{ sale.customer}}</h5></li>
+                <li class="list-group-item"><h5>Date: {{ sale.date}}</h5></li>
+                <li class="list-group-item">
+                    <h5>
+                        Non-serialized Items
+                    </h5>
+                
+                    
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th scope="col">Name</th>
+                                <th scope="col">SKU</th>
+                                <th scope="col">Count</th>
+                                <th scope="col">Your Cost</th>
+                                <th scope="col">Sale Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in non_serialized %}
+                            
+                                <tr class="item" data-anchor="{% url 'view_item' sku=item.item.SKU %}">
+                                    
+                                        <th scope="row">{{ forloop.counter }}</th>
+                                        <td>{{item.item.name}}</td>
+                                        <td>{{item.item.SKU}}</td>
+                                        <td>{{item.count}}</td>
+                                        <td>
+                                            {% for i in item.inventory.all %}
+                                                <div>{{i.count_sold}} <i>for</i> ${{ i.purchase_cost }}</div>
+                                            {% endfor %} 
+                                        </td>
+                                        <td>
+                                            {% for i in item.inventory.all %}
+                                                <div>${{ i.sale_price }}</div>
+                                            {% endfor %} 
+                                        </td>
+                                </tr>
+                            
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </li>
+                <li class="list-group-item">
+                    <h5>
+                        Serialized Items
+                    </h5>
+                    
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th scope="col">Name</th>
+                                <th scope="col">SKU</th>
+                                <th></th>
+                                <th scope="col">Your Cost</th>
+                                <th scope="col">Sale Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in serialized_items %}
+                            
+                                <tr class="item" data-anchor="{% url 'view_item' sku=item.item.SKU %}">
+                                    
+                                        <th scope="row">{{ forloop.counter }}</th>
+                                        <td>{{item.item.name}}</td>
+                                        <td>{{item.item.SKU}}</td>
+                                        <td>{{item.unique_id_type }} {{ item.unique_id }}</td>
+                                        <td>${{item.unit_purchase_price}}</td>
+                                        <td>${{item.unit_sold_price}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </li>
+                {% if other_costs %}
+                    {% for cost in other_costs %}
+                        <li class="list-group-item">
+                            <strong>{{ cost.get_cost_type_display }}:</strong> ${{ cost.cost }}
+                        </li>
+                    {% endfor %}
+                {% endif %}
+                {% if sale.notes %}
+                    <li class="list-group-item"><strong>Notes: </strong>{{ sale.notes}}</li>
+                {% endif %}
+            </ul>
+<script>
+    document.addEventListener("DOMContentLoaded", ()=> {
+        let items = document.querySelectorAll(".item");
+        items.forEach((tr)=>{
+            tr.addEventListener("click", ()=> {
+            window.location.href = tr.dataset.anchor
+        })
+        })
+    } )
+</script>
+        
+{% endblock %}

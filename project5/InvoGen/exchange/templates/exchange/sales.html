@@ -1,0 +1,33 @@
+{% extends "exchange/layout.html" %}
+
+{% block title %}Sales{% endblock %}
+
+{% block body %}
+        <div class="d-flex">
+            <div>
+                {% if customer %}
+                <h2>Sales from {{customer}}</h2>
+                {% else %}
+                <h2>Sales</h2>
+                {% endif %}
+            </div>
+            <div class="ms-auto">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Filter by Customer</button>
+                <ul class="dropdown-menu">
+                    {% for customer in customers %}
+                        <li >
+                            <a class="dropdown-item" href="{% url 'customer_sales' customer_id=customer.id %}">
+                                {{customer}}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <div class="list-group">
+            {% for sale in sales %}
+                <a href="{% url 'view_sale' sale_id=sale.id %}" class="list-group-item list-group-item-action" >{{ sale }}</a>
+            {% endfor %}
+        </div>
+{% endblock %}

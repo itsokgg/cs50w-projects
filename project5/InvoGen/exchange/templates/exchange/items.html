@@ -1,0 +1,49 @@
+{% extends "exchange/layout.html" %}
+
+{% block title %}Items{% endblock %}
+
+{% block body %}
+    <div class="d-flex">
+        <div class="me-auto">
+            {% if category %}
+                <h2>Items in {{category}}</h2>
+            {% elif brand %}
+                <h2>Items from {{brand}}</h2>
+            {% else %}
+                <h2>Items</h2>
+            {% endif %}
+        </div>
+        <div class="btn-group" role="group">
+            <div class="btn-group" role="group">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Filter by Supplier</button>
+                <ul class="dropdown-menu">
+                    {% for category in categories %}
+                        <li >
+                            <a class="dropdown-item" href="{% url 'category_items' category_id=category.id %}">
+                                {{category}}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="btn-group" role="group">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Filter by Supplier</button>
+                <ul class="dropdown-menu">
+                    {% for brand in brands %}
+                        <li >
+                            <a class="dropdown-item" href="{% url 'brand_items' brand_id=brand.id %}">
+                                {{brand}}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="list-group">
+        {% for item in items %}
+            <a href="{% url 'view_item' sku=item.SKU  %}" class="list-group-item list-group-item-action" >{{ item.name }}</a>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "exchange/layout.html" %}
+
+{% block title %}New Sale{% endblock %}
+
+{% block body %}
+        <h2>New Sale</h2>
+        <hr>
+        <form action="{% url 'new_sale' %}" method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <div id="form">
+                    {{ sale_form.as_p }}
+                </div>  
+                
+            </div>
+            <button type="submit" class="btn btn-primary">Save and Add Items</button>
+        </form>
+{% endblock %}

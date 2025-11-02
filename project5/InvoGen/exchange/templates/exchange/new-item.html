@@ -1,0 +1,85 @@
+{% extends "exchange/layout.html" %}
+
+{% block title %}New Item{% endblock %}
+
+{% block body %}
+        
+        <div class="container">
+            <div class="row align-items-start">
+                <div class="col-9 text-start">
+                    <h2>New Item</h2>
+                    <form action="{% url 'new_item' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ item_form.as_p }}
+                        </div>
+                        
+                        <button name="action" value="new-item" type="submit" class="btn btn-primary">Create Item</button>
+                        
+                    </form>
+                </div>
+                
+                <div class="col-3 text-center">
+                    <h2>Add Item Categories and Brands</h2>
+                    <div class="mb-3">
+                        <button id="new-category-btn" class="btn btn-secondary" type="button">Make New Item Category</button>
+                    </div>
+                    <form action="{% url 'new_item' %}" method="POST">
+                        {% csrf_token %}
+                        <div id="new-category-div" class="mb-3" style="display: none">
+                            {{ item_category_form }}
+                            <button name="action" value="new-category" type="submit" class="btn btn-primary">Add Category</button>
+                        </div>
+                    </form>
+                    
+                    <div class="mb-3">
+                        <button id="new-brand-btn" class="btn btn-secondary" type="button">Make New Item Brand</button>
+                    </div>
+                
+                    <form action="{% url 'new_item' %}" method="POST">
+                        {% csrf_token %}
+                        <div id="new-brand-div" class="mb-3" style="display: none">
+                            {{ item_brand_form }}
+                        
+                            <button name="action" value="new-brand" type="submit" class="btn btn-primary">Add Brand</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", ()=> {
+                document.getElementById("new-category-btn").addEventListener("click", newCategory)
+                document.getElementById("new-brand-btn").addEventListener("click", newBrand)
+
+                function newCategory() {
+                    let div = document.getElementById("new-category-div")
+                    let btn = document.getElementById("new-category-btn")
+                    if (div.style.display === "none") {
+                        div.style.display = "block"
+                        btn.innerHTML = "Hide Make New Category"
+                        return false
+                    } else {
+                        div.style.display = "none"
+                        btn.innerHTML = "Show Make New Category"
+                        return false
+                    }
+                }
+
+                function newBrand() {
+                    let div = document.getElementById("new-brand-div")
+                    let btn = document.getElementById("new-brand-btn")
+                    if (div.style.display === "none") {
+                        div.style.display = "block"
+                        btn.innerHTML = "Hide Make New Brand"
+                        return false
+                    } else {
+                        div.style.display = "none"
+                        btn.innerHTML = "Show Make New Brand"
+                        return false
+                    }
+                }
+
+            })
+        </script>
+{% endblock %}

@@ -1,0 +1,66 @@
+* {
+    color: #dddddd
+}
+
+body {
+    background-color: #2f2f2f;
+}
+
+.upper-right {
+    position: absolute;
+    right: 0;
+    top: 20px;
+    padding: 5px
+}
+
+a {
+    font-size: 15px;
+    text-decoration: none;
+    background-color: #222222;
+    padding: 12px;
+    border-radius: 10px;
+    margin: 3px;
+}
+
+.submit {
+    background-color: #222222;
+    border: 0;
+    padding: 15px;
+}
+
+.container {
+    position: absolute;
+    top: 20%;
+    display: grid;
+    grid-column-gap: 20px;
+    grid-row-gap: -10px;
+    grid-template-columns: 200px 200px;
+    width: 100%;
+    height: 50%;
+}
+
+label {
+    padding: 20px;
+}
+
+input:not(.submit) {
+    background-color: inherit;
+    border: 1px solid white;
+    width: 200px; 
+    height: 25px;
+    margin: auto;
+}
+
+label {
+    width: 200px; 
+    height: 25px;
+    margin: auto;
+}
+
+.submit {
+    background-color: blue;
+    color: white;
+    text-align: center;
+    display: block;
+    margin: 0 0 auto auto;
+}

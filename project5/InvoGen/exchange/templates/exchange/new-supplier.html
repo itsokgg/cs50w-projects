@@ -1,0 +1,15 @@
+{% extends "exchange/layout.html" %}
+
+{% block title %}New Supplier{% endblock %}
+
+{% block body %}
+        <h2>New Supplier</h2>
+        <form action="{% url 'new_supplier' %}" method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                 {{ form }}
+            </div>
+            
+            <input class="btn btn-primary" type="submit" value="add">
+        </form>
+{% endblock %}

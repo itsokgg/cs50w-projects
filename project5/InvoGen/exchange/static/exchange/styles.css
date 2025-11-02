@@ -1,0 +1,18 @@
+.item-container {
+    padding: 30px 20px;
+    margin: 10px 0;
+    border: 2px grey solid;
+    border-radius: 20px;
+}
+
+.item-container hr {
+    height: 2px
+}
+
+h1, h3 {
+    margin-top: 50px;
+}
+
+.padded-container {
+    padding: 30px 0;
+}

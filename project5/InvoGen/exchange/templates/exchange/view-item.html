@@ -1,0 +1,74 @@
+{% extends "exchange/layout.html" %}
+
+{% block title %}{{ item.SKU }}{% endblock %}
+
+{% block body %}
+        <h2>{{ item.name }}</h2>
+        <hr>
+        <div class="">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Category: </strong>{{ item.item_category}}</li>
+                <li class="list-group-item"><strong>Brand: </strong>{{ item.item_brand}}</li>
+                <li class="list-group-item"><strong>SKU: </strong>{{ item.SKU}}</li>
+                <li class="list-group-item"><strong>Inventory Restock Warning: </strong>{{ item.inventory_restock_warning }} </li>
+                <li class="list-group-item"><strong>Description: </strong>{{ item.description }}</li>
+                <li class="list-group-item">
+                    <strong>Non-serialized Inventory: </strong>
+                    
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Count</th>
+                                <th scope="col">Cost</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in inventory %}
+                            
+                                <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{i.count}}</td>
+                                        <td>${{ i.purchase_cost }}</td>
+                                        <td><a href="{% url 'view_purchase' purchase_id=i.nsi_purchase_l.purchase.id %}">View Purchase</a></td>
+                                </tr>
+                            
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </li>
+                <li class="list-group-item">
+                    <strong>
+                        Serialized Inventory: 
+                    </strong>
+                    {{ serialized_items | length }}
+                    <table class="table ">
+                        <thead>
+                            <tr>
+            
+                                <th scope="col"></th>
+                                <th scope="col">Unique id</th>
+                                <th scope="col">Cost</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in serialized_items %}
+                            
+                                <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ item.unique_id_type }} {{ item.unique_id }}</td>
+                                        <td>${{item.unit_purchase_price}}</td>
+                                        <td><a href="{% url 'view_purchase' purchase_id=item.purchase.id %}">View Purchase</a></td>
+                                </tr>
+                            
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+        </div>
+        
+        
+{% endblock %}
