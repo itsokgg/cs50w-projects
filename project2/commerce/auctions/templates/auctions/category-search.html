@@ -1,0 +1,14 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <form action="{% url 'view-listing-by-category' %}" method="POST">
+        {% csrf_token %}
+        <h2>Search by Category</h2>  
+            <select  class="col-md-2 form-control" name="category">
+                {% for category in categories %}
+                    <option value="{{ category }}">{{ category }}</option>
+                {% endfor %}
+            </select>
+            <input class="btn btn-primary" type="submit" value="Search">
+    </form>
+{% endblock %}

@@ -1,0 +1,98 @@
+
+body {
+    padding: 10px;
+    background-color:  #1a1a1a;
+    color: #eeeeee
+}
+
+.image_div {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.image_div img {
+    height: auto;
+    width: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+
+.items {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin: 10px;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 350px;
+    height: 500px;
+    background-color: #222222;
+    padding: 10px;
+    border-radius: 10px;
+    border: 5px solid #191919;
+    color: inherit;
+}
+
+.comments {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 10px;
+}
+
+.comments > .comment {
+    width: 100%;
+    background-color: #222222;
+    padding: 10px;
+    border-radius: 10px;
+    border: 5px solid #191919;
+    color: inherit;
+    gap: 5px;
+}
+
+.comments textarea {
+    width: 100%;
+}
+
+.comments input {
+    min-width: 200px;
+    max-width: 8%;
+}
+.item:hover {
+    text-decoration: none;
+    background-color: #292929;
+    color: inherit;
+}
+
+.description {
+    font-size: 30px;
+}
+
+.view_container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.image_div_view {
+    
+    padding: 10px 0;
+}
+
+.image_div_view img {
+    height: 100%;
+    min-height: 400px;
+    width: auto;
+}

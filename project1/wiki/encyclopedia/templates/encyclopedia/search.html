@@ -1,0 +1,16 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Search: {{ search }}
+{% endblock %}
+
+{% block body %}
+    <strong>Direct match not found</strong>
+    <h3>Substring Match for: {{ search }}</h3>
+
+    <ul>
+        {% for entry in entries %}
+            <li><a href="{% url 'wiki:entry' title=entry %}">{{ entry }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
